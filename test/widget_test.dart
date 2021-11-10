@@ -1,30 +1,45 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility that Flutter provides. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
+import 'package:faturas/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:faturas/main.dart';
-
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(MyApp());
+  testWidgets('Test my widget Home', (WidgetTester tester) async {
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    await tester.pumpWidget(Home());
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    // Find text in widget
+    expect(find.text('Última fatura'), findsOneWidget);
+    expect(find.text('R\$ 3.025,49'), findsOneWidget);
+    expect(find.text('Vencimento 08/07/2019'), findsOneWidget);
+    expect(find.text('Vencida'), findsOneWidget);
+    expect(find.text('Formas de Pagamento'), findsOneWidget);
+    expect(find.text('Boleto Bancário'), findsOneWidget);
+    expect(find.text('Copiar código de barras do boleto'), findsOneWidget);
+    expect(find.text('Cartão de crédito'), findsOneWidget);
+    expect(find.text('Pagar com cartão de crédito'), findsOneWidget);
+    
+    await tester.tap(find.widgetWithText(OutlinedButton, 'Copiar código de barras do boleto'));
+    await tester.pumpAndSettle();
+    
+    expect(find.text('Funcionalidade não implementada'), findsOneWidget);
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    await tester.tap(find.widgetWithText(TextButton, 'OK'));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.widgetWithText(OutlinedButton, 'Enviar boleto por e-mail'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Funcionalidade não implementada'), findsOneWidget);
+
+    await tester.tap(find.widgetWithText(TextButton, 'OK'));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.widgetWithText(OutlinedButton, 'Pagar com cartão de crédito'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Funcionalidade não implementada'), findsOneWidget);
+
+    await tester.tap(find.widgetWithText(TextButton, 'OK'));
+    await tester.pumpAndSettle();
   });
 }
