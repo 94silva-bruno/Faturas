@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:faturas/invoice_payment.dart';
 
 void main() {
   runApp(Home());
@@ -137,7 +138,7 @@ class Fatura extends StatelessWidget {
                     },
                   ),
                 ),
-                SizedBox(height: 5),
+                SizedBox(height: 10),
                 SizedBox(
                   height: 50,
                   width: 400,
@@ -184,27 +185,7 @@ class Fatura extends StatelessWidget {
                           fontSize: 16.0,
                         )),
                     onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (_) => AlertDialog(
-                          title: Text(
-                            'Funcionalidade não implementada',
-                            textDirection: TextDirection.ltr,
-                          ),
-                          actions: [
-                            TextButton(
-                              child: Text(
-                                'OK',
-                                textDirection: TextDirection.ltr,
-                              ),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ],
-                        ),
-                        barrierDismissible: false,
-                      );
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => InvoicePayment() ));
                     },
                   ),
                 ),
