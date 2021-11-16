@@ -1,6 +1,6 @@
+import 'package:faturas/view/screens/payment_options.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:faturas/invoice_payment.dart';
 
 void main() {
   runApp(Home());
@@ -185,7 +185,7 @@ class Fatura extends StatelessWidget {
                           fontSize: 16.0,
                         )),
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => InvoicePayment() ));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentOptionsScreen() ));
                     },
                   ),
                 ),
