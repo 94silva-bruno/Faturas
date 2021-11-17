@@ -1,13 +1,17 @@
 import 'package:faturas/model/payment_option.dart';
+import 'package:flutter/cupertino.dart';
 
-class PaymentOptionsModel {
+class PaymentOptionsModel extends ChangeNotifier {
 
-  double _invoiceValue;
-  List<PaymentOption> _paymentOptions;
+  double invoiceValue;
+  List<PaymentOption> paymentOptions;
+  PaymentOption selectedPaymentOption;
 
-  PaymentOptionsModel(this._invoiceValue, this._paymentOptions);
+  PaymentOptionsModel(this.invoiceValue, this.paymentOptions, this.selectedPaymentOption);
 
-  double get invoiceValue => _invoiceValue;
+  paymentOptionSelected(PaymentOption paymentOption) {
+    this.selectedPaymentOption = paymentOption;
 
-  List<PaymentOption> get paymentOptions => _paymentOptions;
+    notifyListeners();
+  }
 }

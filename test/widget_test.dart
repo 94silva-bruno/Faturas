@@ -1,4 +1,4 @@
-import 'package:faturas/main.dart';
+import 'package:faturas/view/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -29,16 +29,6 @@ void main() {
     expect(find.text('Funcionalidade não implementada'), findsNothing);
 
     await tester.tap(find.widgetWithText(OutlinedButton, 'Enviar boleto por e-mail'));
-    await tester.pumpAndSettle();
-
-    expect(find.text('Funcionalidade não implementada'), findsOneWidget);
-
-    await tester.tap(find.widgetWithText(TextButton, 'OK'));
-    await tester.pumpAndSettle();
-
-    expect(find.text('Funcionalidade não implementada'), findsNothing);
-
-    await tester.tap(find.widgetWithText(OutlinedButton, 'Pagar com cartão de crédito'));
     await tester.pumpAndSettle();
 
     expect(find.text('Funcionalidade não implementada'), findsOneWidget);
