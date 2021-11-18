@@ -9,7 +9,26 @@ class Home extends StatelessWidget {
     return MaterialApp(
       home: Fatura(),
       theme: ThemeData(
-        primaryColor: Colors.pink,
+        primaryColor: Colors.pinkAccent,
+        accentColor: Colors.pinkAccent,
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+            foregroundColor: MaterialStateProperty.all<Color>(Colors.pinkAccent),
+          ),
+        ),
+        textButtonTheme: TextButtonThemeData(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+            foregroundColor: MaterialStateProperty.all<Color>(Colors.pinkAccent),
+          ),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+            foregroundColor: MaterialStateProperty.all<Color>(Colors.pinkAccent),
+          ),
+        ),
       ),
     );
   }
@@ -18,7 +37,6 @@ class Home extends StatelessWidget {
 class Fatura extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       appBar: AppBar(
         title: Text('Sistema de Faturas'),
@@ -200,7 +218,6 @@ class Fatura extends StatelessWidget {
 class Alerta extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return AlertDialog(
       title: Text(
         'Funcionalidade não implementada',

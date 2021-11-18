@@ -1,13 +1,12 @@
-import 'package:faturas/model/payment_option.dart';
 import 'package:faturas/view_model/payment_options_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class PaymentOptionsWidget extends StatelessWidget {
 
-  PaymentOptionsViewModel paymentOptionsViewModel = PaymentOptionsViewModel();
   final formatCurrency = new NumberFormat("#,##0.00", "pt_BR");
 
   @override
@@ -17,7 +16,7 @@ class PaymentOptionsWidget extends StatelessWidget {
         title: Text('Pagamento da fatura'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(10),
         child: Column(
           children: [
             Align(
@@ -30,18 +29,20 @@ class PaymentOptionsWidget extends StatelessWidget {
                 ),
               ),
             ),
-            Expanded(
-              child: _contentListView(context,
-                  paymentOptionsViewModel.paymentOptionsModel.paymentOptions),
-            ),
             SizedBox(
-              height: 140,
+              height: 10,
+            ),
+            Expanded(
+              child: _contentListView(),
+            ),
+            Divider(),
+            SizedBox(
+              height: 120,
               child: Card(
                 child: Padding(
-                  padding: EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.all(16.0),
                   child: Column(
                     children: [
-                      Spacer(),
                       Row(
                         children: [
                           Text(
@@ -77,8 +78,9 @@ class PaymentOptionsWidget extends StatelessWidget {
                           Spacer(),
                           Consumer<PaymentOptionsViewModel>(
                             builder: (context, paymentOptionsViewModel, child) {
-                              final transactionFee = formatCurrency.format(paymentOptionsViewModel
-                                  .calculationTransactionFee());
+                              final transactionFee = formatCurrency.format(
+                                  paymentOptionsViewModel
+                                      .calculationTransactionFee());
                               return Text(
                                 'R\$ $transactionFee',
                                 style: TextStyle(
@@ -92,7 +94,6 @@ class PaymentOptionsWidget extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Spacer(),
                     ],
                   ),
                 ),
@@ -110,7 +111,6 @@ class PaymentOptionsWidget extends StatelessWidget {
                       'Voltar',
                       style: TextStyle(
                         fontSize: 16.0,
-                        color: Colors.pink,
                       ),
                     ),
                     onPressed: () {
@@ -118,7 +118,7 @@ class PaymentOptionsWidget extends StatelessWidget {
                     },
                     style: ButtonStyle(
                       backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.white),
+                          MaterialStateProperty.all<Color>(Colors.white),
                     ),
                   ),
                 ),
@@ -142,69 +142,86 @@ class PaymentOptionsWidget extends StatelessWidget {
                     ),
                     onPressed: () {},
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(Colors.pink),
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.pinkAccent),
                     ),
                   ),
                 ),
               ],
             ),
-            Spacer(),
+            SizedBox(
+              height: 20,
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _contentListView(
-      BuildContext context, List<PaymentOption> listPaymentOption) {
-
+  Widget _contentListView() {
     return Consumer<PaymentOptionsViewModel>(
       builder: (context, paymentOptionsViewModel, child) {
-         return ListView.builder(
-           shrinkWrap: true,
-           itemCount: listPaymentOption.length,
-           itemBuilder: (context, index) {
-             var indice = index + 1;
-             var value = formatCurrency.format(listPaymentOption[index].value);
-             var total = formatCurrency.format(listPaymentOption[index].total);
-             var key = Key('$indice');
+        return SizedBox(
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: paymentOptionsViewModel.paymentOptionsModel.paymentOptions.length,
+            itemBuilder: (context, index) {
+              var indice = index + 1;
+              var value = formatCurrency.format(paymentOptionsViewModel.paymentOptionsModel.paymentOptions[index].value);
+              var total = formatCurrency.format(paymentOptionsViewModel.paymentOptionsModel.paymentOptions[index].total);
+              var key = Key('$indice');
 
-             return SizedBox(
-               height: 70,
-               child: Card(
-                 child: Padding(
-                   padding: EdgeInsets.all(10.0),
-                   child: Row(
-                     children: [
-                       Radio(
-                         value: indice,
-                         groupValue: paymentOptionsViewModel.paymentOptionsModel.selectedPaymentOption.number,
-                         onChanged: (value) {
-                           Provider.of<PaymentOptionsViewModel>(context, listen: false).selectedPaymentOptions(index);
-                         },
-                         fillColor: MaterialStateProperty.all<Color>(Colors.pink),
-                         key: key,
-                       ),
-                       Text(
-                         '$indice x R\$ $value',
-                         style: TextStyle(
-                           fontSize: 18.0,
-                         ),
-                       ),
-                       Spacer(),
-                       Text(
-                         'R\$ $total',
-                         style: TextStyle(
-                           fontSize: 18.0,
-                         ),
-                       ),
-                     ],
-                   ),
-                 ),
-               ),
-             );
-           },
-         );
+              return SizedBox(
+                height: 70,
+                child: Card(
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Radio(
+                          value: indice,
+                          groupValue: paymentOptionsViewModel
+                              .paymentOptionsModel.selectedPaymentOption.number,
+                          onChanged: (value) {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return SpinKitFadingCircle(color: Colors.pinkAccent);
+                              },
+                              barrierDismissible: false,
+                            );
+                            Future.delayed(Duration(milliseconds: 1500), () {
+                              Navigator.pop(context);
+                              Provider.of<PaymentOptionsViewModel>(context,
+                                  listen: false)
+                                  .selectedPaymentOptions(index);
+                            });
+                          },
+                          fillColor:
+                              MaterialStateProperty.all<Color>(Colors.pinkAccent),
+                          key: key,
+                        ),
+                        Text(
+                          '$indice x R\$ $value',
+                          style: TextStyle(
+                            fontSize: 18.0,
+                          ),
+                        ),
+                        Spacer(),
+                        Text(
+                          'R\$ $total',
+                          style: TextStyle(
+                            fontSize: 18.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        );
       },
     );
   }
